@@ -1,8 +1,9 @@
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { setUsername, setToken, setLoginStatus } from "../state/userSlice";
 
 function Register() {
@@ -19,14 +20,13 @@ function Register() {
 				role: role,
 			})
 			.then((res) => {
-				console.log(res);
+				//	Login new user on registration success
 				axios
 					.post("https://lamba-test.herokuapp.com/api/auth/login", {
 						username: username,
 						password: password,
 					})
 					.then((res) => {
-						console.log(res);
 						dispatch(setToken(res.data.token));
 						dispatch(setUsername(username));
 						dispatch(setLoginStatus(true));
@@ -43,9 +43,15 @@ function Register() {
 			});
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		postNewUser(/* params here */);
+	};
+
 	return (
 		<Container>
 			Register
+			<Form onSubmit={handleSubmit}></Form>
 			{registerError ? "Error: Please try again later." : ""}
 		</Container>
 	);

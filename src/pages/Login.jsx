@@ -58,7 +58,6 @@ function Login() {
 						onChange={handleChange}
 					/>
 				</Form.Group>
-
 				<Form.Group size="lg" controlId="password">
 					<Form.Label>Password</Form.Label>
 					<Form.Control

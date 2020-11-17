@@ -26,6 +26,7 @@ import Project from "./pages/Project";
 import NewProject from "./pages/NewProject";
 import Error404 from "./pages/Error404";
 //	Other
+import { useGetProjects } from "./hooks";
 import githubLogo from "./assets/github.png";
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
 	const loginStatus = useSelector((state) => state.user.loginStatus);
 	const username = useSelector((state) => state.user.username);
 	const token = useSelector((state) => state.user.token);
+
+	//	Fetches project list and dispatches to state on auth
+	useGetProjects();
 
 	//	Checks localStorage for cached credentials and dispatches to store if found
 	const checkAuthCache = () => {

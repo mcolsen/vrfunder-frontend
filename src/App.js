@@ -1,5 +1,13 @@
+//	React
+import { useEffect } from "react";
 //	Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+	setUsername,
+	setToken,
+	setLoginStatus,
+	logoutUser,
+} from "./state/userSlice";
 //	React Router components
 import { Switch, Route, Link } from "react-router-dom";
 import AuthRoute from "./components/AuthRoute";
@@ -21,8 +29,36 @@ import Error404 from "./pages/Error404";
 import githubLogo from "./assets/github.png";
 
 function App() {
+	const dispatch = useDispatch();
 	const loginStatus = useSelector((state) => state.user.loginStatus);
 	const username = useSelector((state) => state.user.username);
+	const token = useSelector((state) => state.user.token);
+
+	//	Checks localStorage for cached credentials and dispatches to store if found
+	const checkAuthCache = () => {
+		if (localStorage.getItem("token") && localStorage.getItem("username")) {
+			dispatch(setToken(localStorage.getItem("token")));
+			dispatch(setUsername(localStorage.getItem("username")));
+			dispatch(setLoginStatus(true));
+		}
+	};
+	useEffect(checkAuthCache, [dispatch]);
+
+	//	Caches credentials in localStorage on authentication
+	const setAuthCache = () => {
+		if (token && username && loginStatus) {
+			localStorage.setItem("token", token);
+			localStorage.setItem("username", username);
+		}
+	};
+	useEffect(setAuthCache, [token, username, loginStatus, dispatch]);
+
+	//	Removes credentials from store and localStorage on logout
+	const handleLogout = () => {
+		dispatch(logoutUser());
+		localStorage.removeItem("token");
+		localStorage.removeItem("username");
+	};
 
 	return (
 		<Container fluid="true">
@@ -44,7 +80,7 @@ function App() {
 							<NavDropdown.Item as={Link} to={`/new-project`}>
 								New Project
 							</NavDropdown.Item>
-							<NavDropdown.Item>Logout</NavDropdown.Item>
+							<NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
 						</NavDropdown>
 					) : (
 						<Nav.Link as={Link} to="/login">

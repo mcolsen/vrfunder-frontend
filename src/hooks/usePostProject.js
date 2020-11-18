@@ -1,39 +1,45 @@
-import { useState, useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
-import authAxios from "../modules/authAxios";
+import { useEffect, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import useAuthAxios from "./useAuthAxios";
+import {
+	postProjectIdle,
+	postProjectPending,
+	postProjectSuccess,
+	postProjectError,
+	postProjectReset,
+} from "../store";
 
-//	Posts new project and returns request state
-export default function usePostProject(pname, description) {
-	const [status, setStatus] = useState("idle");
-	const [data, setData] = useState(null);
-	const [error, setError] = useState(null);
+export default function usePostProject(form) {
+	const dispatch = useDispatch();
+	const api = useAuthAxios();
 
-	const loginStatus = useSelector((state) => state.user.loginStatus);
-	const token = useSelector((state) => state.user.token);
-
-	const post = useCallback(() => {
-		setStatus("pending");
-		const api = authAxios(token);
-		api
-			.post("projects", {
-				pname: pname,
-				description: description,
-			})
-			.then((res) => {
-				setStatus("success");
-				setData(res.data);
-			})
-			.catch((err) => {
-				setStatus("error");
-				setError(err);
-			});
-	}, [token, pname, description]);
+	const username = useSelector((state) => state.user.username);
 
 	useEffect(() => {
-		if (loginStatus && token && status === "idle") {
-			post();
-		}
-	}, [post, loginStatus, token, status]);
+		dispatch(postProjectIdle());
+		return () => {
+			dispatch(postProjectReset());
+		};
+	}, [dispatch]);
 
-	return { status, data, error };
+	const post = useCallback(() => {
+		dispatch(postProjectPending());
+		api
+			.post("projects", {
+				pname: form.pname,
+				description: form.description,
+				location: form.location,
+				goal: form.goal,
+				image_url: form.image_url,
+				external_url: form.external_url,
+				fundraiser: username,
+			})
+			.then((res) => {
+				dispatch(postProjectSuccess(res.data));
+			})
+			.catch((err) => {
+				dispatch(postProjectError(err));
+			});
+	}, [dispatch, api, form, username]);
+	return post;
 }

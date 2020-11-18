@@ -32,7 +32,7 @@ export default function useLogin(form) {
 				dispatch(loginUser(res.data));
 			})
 			.catch((err) => {
-				dispatch(loginError(err));
+				dispatch(loginError(err.toString()));
 			});
 	}, [dispatch, form]);
 	return login;

@@ -34,7 +34,7 @@ export default function useRegister(form) {
 				login();
 			})
 			.catch((err) => {
-				dispatch(registerError(err));
+				dispatch(registerError(err.toString()));
 			});
 	}, [dispatch, form, login]);
 	return register;

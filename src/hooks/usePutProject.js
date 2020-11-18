@@ -33,7 +33,7 @@ export default function usePutProject(id, form) {
 				dispatch(putProjectSuccess(res.data));
 			})
 			.catch((err) => {
-				dispatch(putProjectError(err));
+				dispatch(putProjectError(err.toString()));
 			});
 	}, [dispatch, api, username, id, form]);
 	return put;

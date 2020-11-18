@@ -28,7 +28,7 @@ export default function useDeleteProject(id) {
 				dispatch(deleteProjectSuccess(res.data));
 			})
 			.catch((err) => {
-				dispatch(deleteProjectError(err));
+				dispatch(deleteProjectError(err.toString()));
 			});
 	}, [dispatch, api, id]);
 	return del;

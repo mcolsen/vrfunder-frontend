@@ -5,13 +5,15 @@ import axios from "axios";
 export default function useAuthAxios() {
 	const token = useSelector((state) => state.user.token);
 
+	const serverUrl = useSelector((state) => state.api.serverUrl);
+
 	const create = useCallback(() => {
 		return axios.create({
-			baseURL: "https://lamba-test.herokuapp.com/api/",
+			baseURL: serverUrl,
 			headers: {
 				Authorization: token,
 			},
 		});
-	}, [token]);
+	}, [token, serverUrl]);
 	return create();
 }

@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
 	loginUser,
@@ -13,6 +13,8 @@ import {
 export default function useLogin(form) {
 	const dispatch = useDispatch();
 
+	const serverUrl = useSelector((state) => state.api.serverUrl);
+
 	useEffect(() => {
 		dispatch(loginIdle());
 		return () => {
@@ -23,7 +25,7 @@ export default function useLogin(form) {
 	const login = useCallback(() => {
 		dispatch(loginPending());
 		axios
-			.post("https://lamba-test.herokuapp.com/api/auth/login", {
+			.post(serverUrl + "auth/login", {
 				username: form.username,
 				password: form.password,
 			})
@@ -32,8 +34,8 @@ export default function useLogin(form) {
 				dispatch(loginUser(res.data));
 			})
 			.catch((err) => {
-				dispatch(loginError(err));
+				dispatch(loginError(err.message));
 			});
-	}, [dispatch, form]);
+	}, [dispatch, form, serverUrl]);
 	return login;
 }

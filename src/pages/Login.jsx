@@ -42,7 +42,7 @@ function Login() {
 
 	return (
 		<Container>
-			Login
+			<h2 className="my-4">Login</h2>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group size="lg" controlId="username">
 					<Form.Label>Username</Form.Label>

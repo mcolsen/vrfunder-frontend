@@ -38,7 +38,7 @@ export default function usePostProject(form) {
 				dispatch(postProjectSuccess(res.data));
 			})
 			.catch((err) => {
-				dispatch(postProjectError(err));
+				dispatch(postProjectError(err.message));
 			});
 	}, [dispatch, api, form, username]);
 	return post;

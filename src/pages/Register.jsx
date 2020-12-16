@@ -8,8 +8,6 @@ import { API_STATUS } from "../store";
 //	Bootstrap components
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import Button from "react-bootstrap/Button";
 import registerSchema from "../validation/registerSchema";
 //	Other
@@ -57,11 +55,6 @@ function Register() {
 		};
 		validateChange(e);
 		setForm(newForm);
-		console.log(form);
-	};
-
-	const handleSelect = (eventKey) => {
-		setForm({ ...form, role: eventKey });
 	};
 
 	const handleSubmit = (e) => {
@@ -77,7 +70,7 @@ function Register() {
 
 	return (
 		<Container>
-			Register
+			<h2 className="my-4">Register</h2>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group size="sm" controlId="username">
 					<Form.Label>Username</Form.Label>
@@ -100,19 +93,16 @@ function Register() {
 				</Form.Group>
 				<Form.Group size="sm" controlId="role">
 					<Form.Label>Role</Form.Label>
-					<DropdownButton
-						id="dropdown-basic-button"
-						title="Dropdown button"
+					<Form.Control
+						as="select"
 						name="role"
-						onSelect={handleSelect}
 						value={form.role}
+						onChange={handleChange}
 					>
-						<Dropdown.Item eventKey="1">Fundraiser</Dropdown.Item>
-						<Dropdown.Item eventKey="2">Funder</Dropdown.Item>
-					</DropdownButton>
-					<h4>You selected {form.role}</h4>
+						<option value={2}>Funder</option>
+						<option value={1}>Fundraiser</option>
+					</Form.Control>
 				</Form.Group>
-
 				<Button block size="lg" type="submit" disabled={!validateForm()}>
 					Register
 				</Button>

@@ -32,7 +32,7 @@ export default function useGetProject(id) {
 				dispatch(getProjectSuccess(res.data));
 			})
 			.catch((err) => {
-				dispatch(getProjectError(err));
+				dispatch(getProjectError(err.message));
 			});
 	}, [dispatch, api, id]);
 	return get;

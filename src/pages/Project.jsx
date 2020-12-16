@@ -1,11 +1,9 @@
 //	React
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 //	Bootstrap components
 import Container from "react-bootstrap/Container";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import Media from "react-bootstrap/Media";
 
 function Project() {
 	const { id } = useParams();

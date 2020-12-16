@@ -30,6 +30,7 @@ export const { setProjectList } = projectsSlice.actions;
 //	apiSlice action and constant exports
 export const API_STATUS = API_STATUS_ALIAS;
 export const {
+	setServerUrl,
 	loginIdle,
 	loginPending,
 	loginSuccess,

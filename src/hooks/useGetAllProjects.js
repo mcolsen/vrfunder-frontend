@@ -30,7 +30,7 @@ export default function useGetAllProjects() {
 				dispatch(setProjectList(res.data));
 			})
 			.catch((err) => {
-				dispatch(getAllProjectsError());
+				dispatch(getAllProjectsError(err.message));
 			});
 	}, [dispatch, api]);
 	return get;

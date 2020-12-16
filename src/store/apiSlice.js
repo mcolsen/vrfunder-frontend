@@ -16,6 +16,7 @@ const initAPIState = {
 export const apiSlice = createSlice({
 	name: "api",
 	initialState: {
+		serverUrl: null,
 		login: initAPIState,
 		register: initAPIState,
 		deleteProject: initAPIState,
@@ -25,6 +26,9 @@ export const apiSlice = createSlice({
 		putProject: initAPIState,
 	},
 	reducers: {
+		setServerUrl: (state, action) => {
+			state.serverUrl = action.payload;
+		},
 		//	login reducers
 		loginIdle: (state) => {
 			state.login.status = IDLE;

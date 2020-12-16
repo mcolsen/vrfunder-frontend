@@ -3,7 +3,13 @@ import { useEffect } from "react";
 import { useGetAllProjects } from "./hooks";
 //	Redux
 import { useSelector, useDispatch } from "react-redux";
-import { setUsername, setToken, setLoginStatus, logoutUser } from "./store";
+import {
+	setServerUrl,
+	setUsername,
+	setToken,
+	setLoginStatus,
+	logoutUser,
+} from "./store";
 //	React Router components
 import { Switch, Route, Link } from "react-router-dom";
 import AuthRoute from "./components/AuthRoute";
@@ -30,6 +36,14 @@ function App() {
 	const loginStatus = useSelector((state) => state.user.loginStatus);
 	const username = useSelector((state) => state.user.username);
 	const token = useSelector((state) => state.user.token);
+
+	//	Set back-end server url using environment variable if available, default to production otherwise
+	useEffect(() => {
+		const serverUrl =
+			process.env.REACT_APP_SERVER_URL ||
+			"https://vrfunder-backend.herokuapp.com/api/";
+		dispatch(setServerUrl(serverUrl));
+	}, [dispatch]);
 
 	//	Gets all projects and dispatches to store upon auth
 	const getAllProjects = useGetAllProjects();

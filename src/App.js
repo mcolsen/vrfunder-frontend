@@ -20,7 +20,6 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 //	Pages
 import Home from "./pages/Home";
-import Explore from "./pages/Explore";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import User from "./pages/User";
@@ -48,9 +47,7 @@ function App() {
 	//	Gets all projects and dispatches to store upon auth
 	const getAllProjects = useGetAllProjects();
 	useEffect(() => {
-		if (loginStatus) {
-			getAllProjects();
-		}
+		getAllProjects();
 	}, [getAllProjects, loginStatus]);
 
 	//	Checks localStorage for cached credentials and dispatches to store if found
@@ -85,11 +82,7 @@ function App() {
 				<Navbar.Brand as={Link} to="/">
 					VRFunder
 				</Navbar.Brand>
-				<Nav>
-					<Nav.Link as={Link} to="/explore">
-						Explore
-					</Nav.Link>
-				</Nav>
+
 				<Nav className="ml-auto">
 					{loginStatus ? (
 						<NavDropdown title={username} alignRight>
@@ -112,9 +105,6 @@ function App() {
 				<Route exact path="/">
 					<Home />
 				</Route>
-				<AuthRoute exact path="/explore">
-					<Explore />
-				</AuthRoute>
 				<Route exact path="/login">
 					<Login />
 				</Route>

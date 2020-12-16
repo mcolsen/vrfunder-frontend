@@ -10,11 +10,11 @@ import * as yup from "yup";
 
 const schema = yup.object().shape({
 	pname: yup.string().required().min(1),
-	description: yup.string().required().min(1),
-	location: yup.string().required().min(1),
+	description: yup.string(),
+	location: yup.string(),
 	goal: yup.number().integer().positive().required(),
-	image_url: yup.string().required().url(),
-	external_url: yup.string().required().url(),
+	image_url: yup.string().url(),
+	external_url: yup.string().url(),
 });
 
 function NewProject() {
@@ -59,14 +59,29 @@ function NewProject() {
 					<Form.Control
 						autoFocus
 						name="pname"
+						placeholder="Required"
 						value={form.pname}
 						onChange={handleChange}
 					/>
 				</Form.Group>
+
+				<Form.Group controlId="goal">
+					<Form.Label>Funding goal (USD)</Form.Label>
+					<Form.Control
+						name="goal"
+						placeholder="Required"
+						type="number"
+						min="0"
+						value={form.goal}
+						onChange={handleChange}
+					/>
+				</Form.Group>
+
 				<Form.Group controlId="description">
 					<Form.Label>Description</Form.Label>
 					<Form.Control
 						name="description"
+						placeholder="Optional"
 						value={form.description}
 						onChange={handleChange}
 					/>
@@ -76,20 +91,17 @@ function NewProject() {
 					<Form.Label>Location</Form.Label>
 					<Form.Control
 						name="location"
+						placeholder="Optional"
 						value={form.location}
 						onChange={handleChange}
 					/>
-				</Form.Group>
-
-				<Form.Group controlId="goal">
-					<Form.Label>Goal</Form.Label>
-					<Form.Control name="goal" value={form.goal} onChange={handleChange} />
 				</Form.Group>
 
 				<Form.Group controlId="image_url">
 					<Form.Label>Image (external URL)</Form.Label>
 					<Form.Control
 						name="image_url"
+						placeholder="Optional"
 						value={form.image_url}
 						onChange={handleChange}
 					/>
@@ -99,6 +111,7 @@ function NewProject() {
 					<Form.Label>Website</Form.Label>
 					<Form.Control
 						name="external_url"
+						placeholder="Optional"
 						value={form.external_url}
 						onChange={handleChange}
 					/>
